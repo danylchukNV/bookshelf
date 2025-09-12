@@ -1,0 +1,51 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag 'appstack/dark.css', 'data-turbo-track': 'reload' %>
+  <%= javascript_import_module_tag 'appstack' %>
+  <%= javascript_import_module_tag 'admin' %>
+<% end %>
+
+<div class="wrapper">
+  <nav id="sidebar" class="sidebar">
+    <div class="sidebar-content js-simplebar" data-simplebar="init">
+      <ul class="sidebar-nav">
+        <li class="sidebar-header">Pages</li>
+        <li class="sidebar-item <%= active_class(admin_path) %>">
+          <%= link_to admin_path, class: 'sidebar-link' do %>
+            <i class="fa-solid fa-sliders"></i>
+            <span class="align-middle">Dashboard</span>
+          <% end %>
+        </li>
+        <li class="sidebar-item <%= active_class(admin_admins_path) %>">
+          <%= link_to admin_admins_path, class: 'sidebar-link' do %>
+            <i class="fa-solid fa-users"></i>
+            <span class="align-middle">Admins</span>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="main">
+    <nav class="navbar navbar-expand navbar-light navbar-bg">
+      <a class="sidebar-toggle">
+        <i class="hamburger align-self-center"></i>
+      </a>
+      <div class="navbar-collapse collapse">
+        <ul class="navbar-nav navbar-align">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="text-dark"><%= current_admin.email %></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end">
+              <%= button_to 'Sign out', destroy_admin_session_path, class: 'dropdown-item', method: :delete %>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <%= render('shared/flash') %>
+    <%= yield %>
+  </div>
+</div>
+
+<% parent_layout 'base' %>

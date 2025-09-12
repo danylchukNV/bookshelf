@@ -1,0 +1,88 @@
+x-app: &app
+  build:
+    context: .
+    dockerfile: Dockerfile.dev
+  environment: &env
+    NODE_ENV: ${NODE_ENV:-development}
+    RAILS_ENV: ${RAILS_ENV:-development}
+  image: template-development
+  tmpfs:
+    - /tmp,modes=1777
+    - /app/tmp/pids
+
+x-backend: &backend
+  <<: *app
+  stdin_open: true
+  tty: true
+  volumes:
+    - .:/app:cached
+    - bundle:/usr/local/bundle
+    - rails_cache:/app/tmp/cache
+    - node_modules:/app/node_modules
+    - history:/usr/local/hist
+  environment:
+    <<: *env
+    REDIS_URL: redis://redis:6379/
+    DATABASE_URL: postgres://postgres@postgres:5432/
+    QUEUE_DATABASE_URL: postgres://postgres@postgres:5432/template_queue
+    BOOTSNAP_CACHE_DIR: /usr/local/bundle/_bootsnap
+    WEB_CONCURRENCY: 1
+    YARN_CACHE_FOLDER: /app/node_modules/.yarn-cache
+    HISTFILE: /usr/local/hist/.bash_history
+    PSQL_HISTFILE: /usr/local/hist/.psql_history
+    IRB_HISTFILE: /usr/local/hist/.irb_history
+    EDITOR: vim
+    LAUNCHY_DRY_RUN: true
+    BROWSER: /dev/null
+  depends_on: &backend_depends_on
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+services:
+  rails:
+    <<: *backend
+    command: bundle exec rails s -b 0.0.0.0
+    ports:
+      - 3000:3000
+
+  queue:
+    <<: *backend
+    command: bin/jobs
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis:/data
+    ports:
+      - 6379
+    healthcheck:
+      test: redis-cli ping
+      interval: 1s
+      timeout: 3s
+      retries: 30
+
+  postgres:
+    image: postgres:17-alpine
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - history:/usr/local/hist
+    environment:
+      PSQL_HISTFILE: /usr/local/hist/.psql_history
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - 5432
+    healthcheck:
+      test: pg_isready -U postgres -h 127.0.0.1
+      interval: 1s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  postgres:
+  redis:
+  bundle:
+  rails_cache:
+  history:
+  node_modules:

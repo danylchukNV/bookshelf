@@ -1,0 +1,21 @@
+<tr class="odd">
+  <td><%= entity.id %></td>
+  <td><%= entity.email %></td>
+  <td><%= [entity.first_name, entity.last_name].join(' ').strip %></td>
+  <td><%= entity.created_at %></td>
+  <td>
+    <div class="btn-group visible-lg">
+      <%= link_to url_for(controller: entity.model_name.plural, action: :edit, id: entity.id),
+                  class: 'btn btn-xs btn-warning', title: "Edit #{entity.class.name}" do %>
+        <i class="fa-solid fa-edit"></i>
+      <% end %>
+
+      <%= link_to url_for(controller: entity.model_name.plural, action: :destroy, id: entity.id),
+                  class: 'btn btn-xs btn-danger', method: :delete, data: { turbo_method: :delete,
+                                                                           turbo_confirm: 'Are you sure ?' },
+                  title: "Remove #{entity.class.name}" do %>
+        <i class="fa-solid fa-trash"></i>
+      <% end %>
+    </div>
+  </td>
+</tr>

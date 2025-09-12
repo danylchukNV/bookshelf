@@ -1,0 +1,26 @@
+<%= form_for [:admin, @entity], html: { multipart: false } do |f| %>
+  <%= render 'admin_panel/partials/form_errors', object: @entity %>
+
+  <div class="row">
+    <div class="mb-3 col-md-6">
+      <%= f.label :first_name, class: 'form-label' %>
+      <%= f.text_field :first_name, class: 'form-control', placeholder: 'First Name' %>
+    </div>
+    <div class="mb-3 col-md-6">
+      <%= f.label :last_name, class: 'form-label' %>
+      <%= f.text_field :last_name, class: 'form-control', placeholder: 'Last Name' %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :email, class: 'form-label' %>
+    <%= f.text_field :email, class: 'form-control', placeholder: 'Email' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :password, class: 'form-label' %>
+    <%= f.password_field :password, class: 'form-control', placeholder: 'Password' %>
+  </div>
+
+  <%= f.submit 'Save changes', class: 'btn btn-outline-primary' %>
+<% end %>

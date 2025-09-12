@@ -1,0 +1,31 @@
+checks:
+  argument-count:
+    enabled: false
+  file-lines:
+    enabled: false
+  method-complexity:
+    config:
+      threshold: 7
+  method-count:
+    enabled: false
+  method-lines:
+    enabled: false
+plugins:
+  bundler-audit:
+    enabled: true
+  fixme:
+    enabled: true
+  rubocop:
+    enabled: true
+    channel: rubocop-1-48-1
+ratings:
+  paths:
+    - 'app/**'
+    - 'lib/**'
+exclude_paths:
+  - 'app/assets/'
+  - 'config/'
+  - 'db/'
+  - 'public/'
+  - 'spec/'
+  - 'vendor/'

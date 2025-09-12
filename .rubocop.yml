@@ -1,0 +1,220 @@
+plugins:
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-performance
+  - rubocop-i18n
+
+AllCops:
+  TargetRubyVersion: 3.4
+  TargetRailsVersion: 8.0.2
+  NewCops: enable
+  Exclude:
+    - bin/**/*
+    - db/**/*
+    - vendor/**/*
+    - spec/fixtures/**/*
+    - tmp/**/*
+    - node_modules/**/*
+  SuggestExtensions: false
+
+Lint/MissingSuper:
+  Enabled: false
+
+# Style -----------------------------------------------------------------------
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always
+  SupportedStyles:
+    - always
+    - never
+  Exclude:
+    - "**/*.html.erb"
+
+Style/RedundantFetchBlock:
+  Exclude:
+    - config/puma.rb
+
+Style/Documentation:
+  Enabled: false
+
+Style/ParallelAssignment:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - app/controllers/**/*
+    - app/workers/**/*
+
+# Metrics ---------------------------------------------------------------------
+
+Metrics/BlockLength:
+  CountComments: false
+  Max: 10
+  AllowedMethods:
+    - aasm
+    - context
+    - describe
+    - included
+    - it
+    - shared_examples
+    - shared_examples_for
+    - namespace
+    - draw
+    - configure
+    - group
+  Exclude:
+    - app/views/**/*.rabl
+    - config/**/*
+    - Rakefile
+    - lib/tasks/**/*.rake
+    - spec/**/*
+    - config/routes.rb
+
+Metrics/BlockNesting:
+  Description: Avoid excessive block nesting
+  StyleGuide: https://github.com/rubocop-hq/ruby-style-guide#three-is-the-number-thou-shalt-count
+  Enabled: false
+  Max: 3
+
+# We are not perfect robot-humans
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/ModuleLength:
+  Description: Avoid modules longer than 100 lines of code.
+  Enabled: false
+  CountComments: false
+  Max: 100
+  Exclude:
+    - "**/*_spec.rb"
+
+Metrics/ParameterLists:
+  Description: Avoid parameter lists longer than three or four parameters.
+  StyleGuide: https://github.com/rubocop-hq/ruby-style-guide#too-many-params
+  Enabled: false
+  Max: 5
+  CountKeywordArgs: true
+
+Metrics/CyclomaticComplexity:
+  Description: A complexity metric that is strongly correlated to the number of test
+    cases needed to validate a method.
+  Enabled: false
+  Max: 7
+
+Metrics/PerceivedComplexity:
+  Description: A complexity metric geared towards measuring complexity for a human reader.
+  Enabled: false
+  Max: 7
+
+# Layout ----------------------------------------------------------------------
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - config/deploy.rb
+    - config/environments/*
+    - config/initializers/devise.rb
+  # Allow comments from annotate
+  AllowedPatterns: [ '^#\s' ]
+  AllowURI: true
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/ClassStructure:
+  Enabled: true
+  Categories:
+    module_inclusion:
+      - include
+      - prepend
+      - extend
+    associations:
+      - has_one
+      - has_many
+      - belongs_to
+      - has_and_belongs_to_many
+  ExpectedOrder:
+    - module_inclusion
+    - constants
+    - associations
+    - public_class_methods
+    - initializer
+    - public_methods
+    - protected_methods
+    - private_methods
+
+# RSpec -----------------------------------------------------------------------
+
+RSpec/VariableName:
+  Exclude:
+    - spec/requests/**/*
+    - spec/support/shared_examples/request/*
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/MultipleDescribes:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 22
+
+RSpec/MessageSpies:
+  EnforcedStyle: receive
+
+RSpec/MessageChain:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 5
+
+RSpec/DescribeClass:
+  Exclude:
+    - spec/tasks/**/*
+
+RSpec/ContextWording:
+  Exclude:
+    - spec/support/shared_contexts/**/*
+
+# Rails -----------------------------------------------------------------------
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Rails/RakeEnvironment:
+  Enabled: false
+
+Rails/UnknownEnv:
+  Environments:
+    - development
+    - test
+    - dev
+    - staging
+    - production
+
+# Added in version 2.14 of rubocop-rails
+Rails/I18nLocaleTexts:
+  Enabled: true
+
+Rails/I18nLazyLookup:
+  Enabled: true
+  EnforcedStyle: explicit
+
+I18n/GetText:
+  Enabled: false
+
+I18n/RailsI18n:
+  Enabled: true
+
+I18n/RailsI18n/DecorateStringFormattingUsingInterpolation:
+  Enabled: false

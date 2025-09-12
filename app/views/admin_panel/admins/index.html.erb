@@ -1,0 +1,36 @@
+<main class="content">
+  <div class="container-fluid p-0">
+    <div class='card'>
+      <div class='card-header'>
+        <%= link_to new_admin_admin_path, class: 'btn btn-primary float-end mt-n1' do %>
+          <i class="fa-solid fa-plus"></i>
+          New admin
+        <% end %>
+        <h1 class="h3 mb-3">Admins</h1>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table mb-0">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Email</th>
+              <th scope="col">Name</th>
+              <th scope="col">Created At</th>
+              <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @entities.each do |entity| %>
+              <%= render 'admin_panel/admins/item', entity: entity %>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer">
+        <%== pagy_bootstrap_nav(@pagy) %>
+      </div>
+    </div>
+  </div>
+</main>
