@@ -49,6 +49,7 @@ group :development do
   gem 'bundler-audit', require: false
   gem 'erb_lint', require: false
   gem 'letter_opener'
+  gem 'letter_opener_web', '~> 2.0'
   gem 'web-console'
 end
 
