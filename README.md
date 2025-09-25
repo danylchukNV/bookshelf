@@ -23,3 +23,10 @@ If you need help setting up a Ruby development environment, check out this [Rail
 * run `docker compose run rails rails db:seed` in terminal
 * run `docker compose up rails` in terminal
 * Access the app at: `http://localhost:3000/`
+
+## Info
+
+* Зайти в контейнер запустіть `docker compose run rails bash` в terminal.
+run — стартує одноразовий контейнер сервісу rails bash — відкриває оболонку всередині контейнера
+
+* Усередині контейнера щоб відкрити Rails Console (доступ до моделей/БД тощо) запустіть команду `bundle exec rails c`.
