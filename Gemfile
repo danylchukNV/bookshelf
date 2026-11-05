@@ -90,3 +90,6 @@ group :test do
   gem 'shoulda-matchers'
   gem 'webmock'
 end
+
+gem "graphql", "~> 2.6"
+gem "graphiql-rails", group: :development
