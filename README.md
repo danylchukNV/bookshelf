@@ -9,6 +9,7 @@
 | ЛР3 | Моделі, зв'язки, міграції, scope'и, пошук/сортування | `lab-3` |
 | ЛР4 | JSON API, тестування та документація API у Postman | `lab-4` |
 | ЛР5 | Shrine (обкладинки), Active Job (імпорт CSV), Action Mailer (звіт) | `lab-5` |
+| ЛР6 | GraphQL API: типи, query, mutation, GraphiQL | `lab-6` |
 
 ## Вимоги
 
@@ -82,3 +83,19 @@ bundle exec rspec
   результат зберігається в таблиці `imports`.
 - Після імпорту `UserMailer#import_report` надсилає звіт адміністратору.
   У development листи переглядаються на `/letter_opener`.
+
+## ЛР6: GraphQL
+
+- Endpoint: `POST /graphql`, IDE GraphiQL (development): `/graphiql`.
+- Типи: `BookType`, `AuthorType` (`app/graphql/types`).
+- Query: `books(title, authorId, limit, offset)`, `book(id)`, `authors(activeOnly)`.
+- Mutation: `createBook(input: { title, authorId, year, description })` → `{ book, errors }`.
+
+```graphql
+mutation {
+  createBook(input: { title: "Берег любові", authorId: 4, year: 1976 }) {
+    book { id title year author { name } }
+    errors
+  }
+}
+```
