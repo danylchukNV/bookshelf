@@ -41,7 +41,7 @@ gem 'strong_migrations'
 
 gem 'dry-matcher'
 gem 'dry-monads'
-gem 'dry-rails', '~> 0.3'
+gem 'dry-rails', '~> 0.8'
 
 group :development do
   gem 'amazing_print'
