@@ -1,0 +1,60 @@
+<main class="content">
+  <div class="container-fluid p-0">
+    <div class="card">
+      <div class="card-header">
+        <h1 class="h3 mb-0">Import #<%= @import.id %> <%= render 'status', import: @import %></h1>
+      </div>
+      <div class="card-body">
+        <dl class="row">
+          <dt class="col-sm-3">File</dt>
+          <dd class="col-sm-9"><%= @import.filename %></dd>
+          <dt class="col-sm-3">Admin</dt>
+          <dd class="col-sm-9"><%= @import.admin.email %></dd>
+          <dt class="col-sm-3">Rows in file</dt>
+          <dd class="col-sm-9"><%= @import.total_rows %></dd>
+          <dt class="col-sm-3">Books created</dt>
+          <dd class="col-sm-9 text-success fw-bold"><%= @import.created_count %></dd>
+          <dt class="col-sm-3">Rows skipped</dt>
+          <dd class="col-sm-9 text-warning fw-bold"><%= @import.skipped_count %></dd>
+          <dt class="col-sm-3">Execution time</dt>
+          <dd class="col-sm-9"><%= @import.duration_seconds %> s</dd>
+          <dt class="col-sm-3">Started / finished</dt>
+          <dd class="col-sm-9"><%= @import.started_at %> / <%= @import.finished_at %></dd>
+          <% if @import.error_message.present? %>
+            <dt class="col-sm-3">Error</dt>
+            <dd class="col-sm-9 text-danger"><%= @import.error_message %></dd>
+          <% end %>
+        </dl>
+
+        <% if @import.skipped_rows.any? %>
+          <h4>Skipped rows</h4>
+          <div class="table-responsive">
+            <table class="table table-sm table-striped">
+              <thead>
+                <tr><th>Line</th><th>Title</th><th>Author</th><th>Reason</th></tr>
+              </thead>
+              <tbody>
+                <% @import.skipped_rows.each do |row| %>
+                  <tr>
+                    <td><%= row['line'] %></td>
+                    <td><%= row['title'] %></td>
+                    <td><%= row['author_name'] %></td>
+                    <td><%= row['reason'] %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% end %>
+      </div>
+      <div class="card-footer d-flex gap-1">
+        <%= link_to 'New import', new_admin_import_path, class: 'btn btn-primary' %>
+        <%= link_to 'All imports', admin_imports_path, class: 'btn btn-outline-secondary' %>
+        <%= link_to 'Books', books_path, class: 'btn btn-outline-secondary' %>
+        <% if Rails.env.development? %>
+          <%= link_to 'Open mailbox', '/letter_opener', class: 'btn btn-outline-info', target: '_blank' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</main>

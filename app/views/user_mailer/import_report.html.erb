@@ -1,0 +1,32 @@
+<h2>Books import #<%= @import.id %></h2>
+<p>Hello, <%= @user.email %>!</p>
+<p>Import of the file <strong><%= @import.filename %></strong> has finished with status
+  <strong><%= @import.status %></strong>.</p>
+
+<% if @import.error_message.present? %>
+  <p style="color: #c0392b;">Error: <%= @import.error_message %></p>
+<% end %>
+
+<table cellpadding="4" style="border-collapse: collapse;">
+  <tr><td>Rows in file:</td><td><strong><%= @import.total_rows %></strong></td></tr>
+  <tr><td>Books created:</td><td><strong><%= @import.created_count %></strong></td></tr>
+  <tr><td>Rows skipped:</td><td><strong><%= @import.skipped_count %></strong></td></tr>
+  <tr><td>Execution time:</td><td><strong><%= @import.duration_seconds %> s</strong></td></tr>
+</table>
+
+<% if @import.skipped_rows.any? %>
+  <h3>Skipped rows</h3>
+  <table border="1" cellpadding="4" style="border-collapse: collapse;">
+    <tr><th>Line</th><th>Title</th><th>Author</th><th>Reason</th></tr>
+    <% @import.skipped_rows.each do |row| %>
+      <tr>
+        <td><%= row['line'] %></td>
+        <td><%= row['title'] %></td>
+        <td><%= row['author_name'] %></td>
+        <td><%= row['reason'] %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<p><%= link_to 'Open import details', admin_import_url(@import) %></p>

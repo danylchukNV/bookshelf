@@ -1,0 +1,24 @@
+<main class="content">
+  <div class="container-fluid p-0">
+    <div class="card">
+      <div class="card-header">
+        <h1 class="h3 mb-0">Import Books</h1>
+      </div>
+      <div class="card-body">
+        <p>Upload a CSV file with the header row
+          <code>title,author_name,year,description</code>.
+          Books are created only for existing authors; other rows are skipped.</p>
+        <p><%= link_to 'Download sample CSV', '/samples/books_import.csv' %></p>
+
+        <%= form_with url: admin_imports_path, multipart: true do |f| %>
+          <div class="mb-3 col-md-6">
+            <%= f.label :file, 'CSV file', class: 'form-label' %>
+            <%= f.file_field :file, accept: '.csv,text/csv', class: 'form-control' %>
+          </div>
+          <%= f.submit 'Import', class: 'btn btn-primary' %>
+          <%= link_to 'Import history', admin_imports_path, class: 'btn btn-outline-secondary' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</main>

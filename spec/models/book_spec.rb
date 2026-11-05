@@ -23,3 +23,21 @@ RSpec.describe Book, type: :model do
     expect(book).not_to be_valid
   end
 end
+
+RSpec.describe Book, 'cover', type: :model do
+  let(:book) { build(:book) }
+
+  it 'attaches an image through Shrine' do
+    book.cover = Rails.root.join('spec/fixtures/files/cover.png').open
+    expect(book).to be_valid
+    book.save!
+    expect(book.reload.cover.mime_type).to eq('image/png')
+    expect(book.cover_data).to include('storage' => 'store')
+  end
+
+  it 'rejects a file that is not an image' do
+    book.cover = Rails.root.join('spec/fixtures/files/not_image.txt').open
+    expect(book).not_to be_valid
+    expect(book.errors[:cover]).to be_present
+  end
+end

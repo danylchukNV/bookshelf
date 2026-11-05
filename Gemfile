@@ -6,6 +6,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.4.2'
 
 gem 'bcrypt'
+# CSV is a bundled (not default) gem since Ruby 3.4
+gem 'csv'
 gem 'importmap-rails'
 # Build JSON API responses with Jbuilder templates [https://github.com/rails/jbuilder]
 gem 'jbuilder'
@@ -39,6 +41,8 @@ gem 'rails_app_version'
 gem 'ransack'
 gem 'sentry-rails'
 gem 'sentry-ruby'
+# File attachments (book covers) [https://shrinerb.com]
+gem 'shrine', '~> 3.6'
 gem 'strong_migrations'
 
 gem 'dry-matcher'

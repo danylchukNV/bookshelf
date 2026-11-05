@@ -23,6 +23,21 @@
             <span class="align-middle">Authors</span>
           <% end %>
         </li>
+        <% if admin_signed_in? %>
+          <li class="sidebar-header">Admin</li>
+          <li class="sidebar-item">
+            <%= link_to new_admin_import_path, class: 'sidebar-link' do %>
+              <i class="fa-solid fa-file-import"></i>
+              <span class="align-middle">Import Books</span>
+            <% end %>
+          </li>
+          <li class="sidebar-item">
+            <%= link_to admin_path, class: 'sidebar-link' do %>
+              <i class="fa-solid fa-sliders"></i>
+              <span class="align-middle">Admin panel</span>
+            <% end %>
+          </li>
+        <% end %>
       </ul>
     </div>
   </nav>
@@ -32,6 +47,21 @@
       <a class="sidebar-toggle">
         <i class="hamburger align-self-center"></i>
       </a>
+      <div class="navbar-collapse collapse">
+        <ul class="navbar-nav navbar-align align-items-center">
+          <% if admin_signed_in? %>
+            <li class="nav-item me-2"><span class="text-muted"><%= current_admin.email %></span></li>
+            <li class="nav-item">
+              <%= button_to 'Sign out', destroy_admin_session_path, method: :delete,
+                            class: 'btn btn-sm btn-outline-secondary' %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to 'Sign in', new_admin_session_path, class: 'btn btn-sm btn-outline-primary' %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     </nav>
     <%= render('shared/flash') %>
     <%= yield %>

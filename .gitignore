@@ -36,3 +36,6 @@
 # Ignore application config.
 #/.env
 #/.env.*local
+
+# Files uploaded with Shrine
+/public/uploads

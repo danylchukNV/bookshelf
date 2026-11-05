@@ -8,6 +8,7 @@
 | ЛР2 | Ініціалізація проєкту, MVC і CRUD | `lab-2` |
 | ЛР3 | Моделі, зв'язки, міграції, scope'и, пошук/сортування | `lab-3` |
 | ЛР4 | JSON API, тестування та документація API у Postman | `lab-4` |
+| ЛР5 | Shrine (обкладинки), Active Job (імпорт CSV), Action Mailer (звіт) | `lab-5` |
 
 ## Вимоги
 
@@ -71,3 +72,13 @@ bin/rails server -b 0.0.0.0
 bin/rails db:test:prepare
 bundle exec rspec
 ```
+
+## ЛР5: обкладинки, імпорт CSV і e-mail звіт
+
+- Обкладинка книги завантажується через Shrine (`app/uploaders/cover_uploader.rb`), файли – у `public/uploads`.
+  Завантажувати обкладинку може лише адміністратор (`/admins/sign_in`, admin@example.com / password).
+- Імпорт книг: `/admin/imports/new`, приклад файлу – `public/samples/books_import.csv`
+  (колонки `title,author_name,year,description`). Імпорт виконує `ImportBooksJob`,
+  результат зберігається в таблиці `imports`.
+- Після імпорту `UserMailer#import_report` надсилає звіт адміністратору.
+  У development листи переглядаються на `/letter_opener`.

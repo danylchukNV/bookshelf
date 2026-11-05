@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_11_05_150200) do
+ActiveRecord::Schema[8.0].define(version: 2026_11_05_170100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -45,8 +45,27 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_05_150200) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "author_id"
+    t.jsonb "cover_data"
     t.index ["author_id"], name: "index_books_on_author_id"
   end
 
+  create_table "imports", force: :cascade do |t|
+    t.bigint "admin_id", null: false
+    t.string "filename", null: false
+    t.string "status", default: "pending", null: false
+    t.integer "total_rows", default: 0, null: false
+    t.integer "created_count", default: 0, null: false
+    t.integer "skipped_count", default: 0, null: false
+    t.jsonb "skipped_rows", default: [], null: false
+    t.string "error_message"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.float "duration_seconds"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_imports_on_admin_id"
+  end
+
   add_foreign_key "books", "authors"
+  add_foreign_key "imports", "admins"
 end

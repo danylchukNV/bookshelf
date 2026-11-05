@@ -40,7 +40,9 @@ Rails.application.configure do
   config.secret_key_base = ENV.fetch('SECRET_KEY_BASE')
 
   # Ensure mailer works in development.
-  config.action_mailer.delivery_method = :letter_opener
+  # letter_opener_web saves e-mails to tmp/letter_opener and shows them at /letter_opener
+  # (plain letter_opener tries to open a browser, which does not work on a server without GUI).
+  config.action_mailer.delivery_method = :letter_opener_web
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
   config.action_mailer.asset_host = 'http://localhost:3000'

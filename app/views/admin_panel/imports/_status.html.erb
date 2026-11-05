@@ -1,0 +1,2 @@
+<% color = { 'completed' => 'success', 'failed' => 'danger', 'processing' => 'info' }.fetch(import.status, 'secondary') %>
+<span class="badge bg-<%= color %>"><%= import.status %></span>

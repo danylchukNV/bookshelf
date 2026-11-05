@@ -30,5 +30,6 @@ Rails.application.routes.draw do
   namespace :admin, module: 'admin_panel' do
     get '/' => 'dashboard#index'
     resources :admins
+    resources :imports, only: %i[index show new create]
   end
 end

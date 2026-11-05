@@ -1,0 +1,20 @@
+Books import #<%= @import.id %>
+
+Hello, <%= @user.email %>!
+Import of the file <%= @import.filename %> has finished with status: <%= @import.status %>.
+<% if @import.error_message.present? %>
+Error: <%= @import.error_message %>
+<% end %>
+Rows in file:   <%= @import.total_rows %>
+Books created:  <%= @import.created_count %>
+Rows skipped:   <%= @import.skipped_count %>
+Execution time: <%= @import.duration_seconds %> s
+<% if @import.skipped_rows.any? %>
+
+Skipped rows:
+<% @import.skipped_rows.each do |row| %>
+  line <%= row['line'] %>: "<%= row['title'] %>" (<%= row['author_name'] %>) - <%= row['reason'] %>
+<% end %>
+<% end %>
+
+Details: <%= admin_import_url(@import) %>

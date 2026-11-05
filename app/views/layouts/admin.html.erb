@@ -21,6 +21,19 @@
             <span class="align-middle">Admins</span>
           <% end %>
         </li>
+        <li class="sidebar-item <%= active_class(admin_imports_path) %>">
+          <%= link_to admin_imports_path, class: 'sidebar-link' do %>
+            <i class="fa-solid fa-file-import"></i>
+            <span class="align-middle">Imports</span>
+          <% end %>
+        </li>
+        <li class="sidebar-header">Site</li>
+        <li class="sidebar-item">
+          <%= link_to books_path, class: 'sidebar-link' do %>
+            <i class="fa-solid fa-book"></i>
+            <span class="align-middle">Books</span>
+          <% end %>
+        </li>
       </ul>
     </div>
   </nav>

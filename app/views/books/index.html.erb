@@ -3,6 +3,12 @@
   <div class="container-fluid p-0">
     <div class="card">
       <div class="card-header">
+        <% if admin_signed_in? %>
+          <%= link_to new_admin_import_path, class: 'btn btn-outline-primary float-end mt-n1 ms-1' do %>
+            <i class="fa-solid fa-file-import"></i>
+            Import Books
+          <% end %>
+        <% end %>
         <%= link_to new_book_path, class: 'btn btn-primary float-end mt-n1' do %>
           <i class="fa-solid fa-plus"></i>
           New Book
@@ -31,6 +37,7 @@
               <thead>
                 <tr>
                   <th scope="col">#</th>
+                  <th scope="col">Cover</th>
                   <th scope="col"><%= sort_link(@q, :title, 'Title') %></th>
                   <th scope="col">Author</th>
                   <th scope="col"><%= sort_link(@q, :year, 'Year') %></th>
@@ -41,6 +48,11 @@
                 <% @books.each do |book| %>
                   <tr>
                     <td><%= book.id %></td>
+                    <td>
+                      <% if book.cover %>
+                        <%= image_tag book.cover_url, alt: '', style: 'height: 48px;', class: 'rounded' %>
+                      <% end %>
+                    </td>
                     <td><%= link_to book.title, book_path(book) %></td>
                     <td><%= book.author&.name || '—' %></td>
                     <td><%= book.year %></td>

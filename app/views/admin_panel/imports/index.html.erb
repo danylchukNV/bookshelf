@@ -1,0 +1,48 @@
+<main class="content">
+  <div class="container-fluid p-0">
+    <div class="card">
+      <div class="card-header">
+        <%= link_to new_admin_import_path, class: 'btn btn-primary float-end mt-n1' do %>
+          <i class="fa-solid fa-file-import"></i>
+          New import
+        <% end %>
+        <h1 class="h3 mb-3">Imports</h1>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table mb-0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>File</th>
+                <th>Admin</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Skipped</th>
+                <th>Time, s</th>
+                <th>Started at</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @imports.each do |import| %>
+                <tr>
+                  <td><%= link_to import.id, admin_import_path(import) %></td>
+                  <td><%= import.filename %></td>
+                  <td><%= import.admin.email %></td>
+                  <td><%= render 'status', import: import %></td>
+                  <td><%= import.created_count %></td>
+                  <td><%= import.skipped_count %></td>
+                  <td><%= import.duration_seconds %></td>
+                  <td><%= l(import.created_at, format: :short) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer">
+        <%== pagy_bootstrap_nav(@pagy) %>
+      </div>
+    </div>
+  </div>
+</main>

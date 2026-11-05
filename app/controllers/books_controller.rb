@@ -57,7 +57,10 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
   end
 
+  # Only a signed-in admin may upload or remove a cover.
   def book_params
-    params.expect(book: %i[title author_id year description])
+    permitted = %i[title author_id year description]
+    permitted += %i[cover remove_cover] if admin_signed_in?
+    params.expect(book: permitted)
   end
 end
