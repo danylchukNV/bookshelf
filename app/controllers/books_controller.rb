@@ -5,8 +5,13 @@ class BooksController < ApplicationController
 
   before_action :set_book, only: %i[show edit update destroy]
 
+  helper_method :author_options
+
   def index
-    @books = Book.order(:id)
+    @q = Book.ransack(params[:q])
+    @q.sorts = 'id asc' if @q.sorts.empty?
+    @books = @q.result.includes(:author)
+    @authors = Author.order(:name)
   end
 
   def show; end
@@ -42,11 +47,17 @@ class BooksController < ApplicationController
 
   private
 
+  # Only active authors can be chosen. The book's current author is kept in the list
+  # even if they became inactive, so editing the book does not silently drop them.
+  def author_options
+    Author.active.or(Author.where(id: @book&.author_id)).order(:name)
+  end
+
   def set_book
     @book = Book.find(params[:id])
   end
 
   def book_params
-    params.expect(book: %i[title author year description])
+    params.expect(book: %i[title author_id year description])
   end
 end

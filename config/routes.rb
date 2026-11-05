@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   root 'books#index'
 
   resources :books
+  resources :authors, except: :show
 
   namespace :admin, module: 'admin_panel' do
     get '/' => 'dashboard#index'

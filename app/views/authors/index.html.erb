@@ -1,0 +1,47 @@
+<% provide(:title, 'Authors') %>
+<main class="content">
+  <div class="container-fluid p-0">
+    <div class="mb-3">
+      <%= link_to new_author_path, class: 'btn btn-primary float-end mt-n1' do %>
+        <i class="fa-solid fa-plus"></i>
+        New Author
+      <% end %>
+      <h1 class="h3 mb-3">Authors</h1>
+    </div>
+
+    <div class="row">
+      <% @authors.each do |author| %>
+        <div class="col-md-6 col-xl-4">
+          <div class="card">
+            <div class="card-header">
+              <span class="badge float-end <%= author.active? ? 'bg-success' : 'bg-secondary' %>">
+                <%= author.active? ? 'Active' : 'Inactive' %>
+              </span>
+              <h5 class="card-title mb-0"><%= author.name %></h5>
+            </div>
+            <div class="card-body">
+              <% if author.bio.present? %>
+                <p class="text-muted"><%= author.bio %></p>
+              <% end %>
+              <h6>Books (<%= author.books.size %>)</h6>
+              <% if author.books.any? %>
+                <ul class="mb-0">
+                  <% author.books.sort_by(&:year).each do |book| %>
+                    <li><%= link_to book.title, book_path(book) %> (<%= book.year %>)</li>
+                  <% end %>
+                </ul>
+              <% else %>
+                <p class="mb-0 text-muted">No books yet.</p>
+              <% end %>
+            </div>
+            <div class="card-footer d-flex gap-1">
+              <%= link_to 'Edit', edit_author_path(author), class: 'btn btn-sm btn-warning' %>
+              <%= button_to 'Delete', author_path(author), method: :delete, class: 'btn btn-sm btn-danger',
+                            form: { data: { turbo_confirm: "Delete \"#{author.name}\"?" } } %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</main>

@@ -8,7 +8,7 @@
       <div class="card-body">
         <dl class="row mb-0">
           <dt class="col-sm-2">Author</dt>
-          <dd class="col-sm-10"><%= @book.author %></dd>
+          <dd class="col-sm-10"><%= @book.author&.name || '—' %></dd>
           <dt class="col-sm-2">Year</dt>
           <dd class="col-sm-10"><%= @book.year %></dd>
           <dt class="col-sm-2">Description</dt>

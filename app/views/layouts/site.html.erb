@@ -17,6 +17,12 @@
             <span class="align-middle">Books</span>
           <% end %>
         </li>
+        <li class="sidebar-item <%= active_class(authors_path) %>">
+          <%= link_to authors_path, class: 'sidebar-link' do %>
+            <i class="fa-solid fa-user-pen"></i>
+            <span class="align-middle">Authors</span>
+          <% end %>
+        </li>
       </ul>
     </div>
   </nav>

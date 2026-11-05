@@ -8,6 +8,21 @@
           New Book
         <% end %>
         <h1 class="h3 mb-3">Books</h1>
+
+        <%= search_form_for @q, html: { class: 'row g-2' } do |f| %>
+          <%= hidden_field_tag 'q[s]', params.dig(:q, :s) if params.dig(:q, :s).present? %>
+          <div class="col-md-5">
+            <%= f.search_field :title_cont, class: 'form-control', placeholder: 'Search by title' %>
+          </div>
+          <div class="col-md-4">
+            <%= f.collection_select :author_id_eq, @authors, :id, :name,
+                                    { include_blank: 'All authors' }, class: 'form-select' %>
+          </div>
+          <div class="col-md-3 d-flex gap-1">
+            <%= f.submit 'Search', class: 'btn btn-outline-primary' %>
+            <%= link_to 'Reset', books_path, class: 'btn btn-outline-secondary' %>
+          </div>
+        <% end %>
       </div>
       <div class="card-body">
         <% if @books.any? %>
@@ -16,9 +31,9 @@
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Title</th>
+                  <th scope="col"><%= sort_link(@q, :title, 'Title') %></th>
                   <th scope="col">Author</th>
-                  <th scope="col">Year</th>
+                  <th scope="col"><%= sort_link(@q, :year, 'Year') %></th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
@@ -27,7 +42,7 @@
                   <tr>
                     <td><%= book.id %></td>
                     <td><%= link_to book.title, book_path(book) %></td>
-                    <td><%= book.author %></td>
+                    <td><%= book.author&.name || '—' %></td>
                     <td><%= book.year %></td>
                     <td>
                       <div class="d-flex gap-1">
@@ -43,7 +58,7 @@
             </table>
           </div>
         <% else %>
-          <p class="mb-0">No books yet.</p>
+          <p class="mb-0">No books found.</p>
         <% end %>
       </div>
     </div>
