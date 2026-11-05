@@ -11,7 +11,7 @@ gem 'csv'
 gem 'importmap-rails'
 # Build JSON API responses with Jbuilder templates [https://github.com/rails/jbuilder]
 gem 'jbuilder'
-gem 'pg', '~> 1.1'
+gem 'pg', '~> 1.7'
 gem 'puma', '>= 5.0'
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem 'propshaft'

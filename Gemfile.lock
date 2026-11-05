@@ -341,12 +341,12 @@ GEM
     parser (3.3.9.0)
       ast (~> 2.4.1)
       racc
-    pg (1.6.2)
-    pg (1.6.2-aarch64-linux)
-    pg (1.6.2-aarch64-linux-musl)
-    pg (1.6.2-arm64-darwin)
-    pg (1.6.2-x86_64-linux)
-    pg (1.6.2-x86_64-linux-musl)
+    pg (1.7.0)
+    pg (1.7.0-aarch64-linux)
+    pg (1.7.0-aarch64-linux-musl)
+    pg (1.7.0-arm64-darwin)
+    pg (1.7.0-x86_64-linux)
+    pg (1.7.0-x86_64-linux-musl)
     pp (0.6.2)
       prettyprint
     premailer (1.27.0)
@@ -626,7 +626,7 @@ DEPENDENCIES
   letter_opener_web (~> 2.0)
   n_plus_one_control
   pagy (~> 9.3)
-  pg (~> 1.1)
+  pg (~> 1.7)
   premailer-rails
   propshaft
   pry-byebug
