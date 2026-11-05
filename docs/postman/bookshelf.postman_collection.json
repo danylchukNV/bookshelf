@@ -1,0 +1,355 @@
+{
+  "info": {
+    "name": "Bookshelf API v1",
+    "description": "REST API застосунку Bookshelf (лабораторна робота № 4).\n\nБазова адреса задається змінною `base_url`. Усі відповіді у форматі JSON. Помилки повертаються як `{ \"errors\": [{ \"status\", \"title\", \"detail\" }] }`.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://192.168.32.130:3000"
+    },
+    {
+      "key": "book_id",
+      "value": "1"
+    },
+    {
+      "key": "author_id",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "List books",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/books?page=1&per_page=10",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "books"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1",
+              "description": "Номер сторінки, ціле число ≥ 1 (за замовчуванням 1)",
+              "disabled": false
+            },
+            {
+              "key": "per_page",
+              "value": "10",
+              "description": "Кількість книг на сторінці, 1–100 (за замовчуванням 10)",
+              "disabled": false
+            },
+            {
+              "key": "title",
+              "value": "",
+              "description": "Пошук за частиною назви, без урахування регістру",
+              "disabled": true
+            },
+            {
+              "key": "author_id",
+              "value": "",
+              "description": "Фільтр за id автора",
+              "disabled": true
+            }
+          ]
+        },
+        "description": "Список книг з пагінацією. Відповідь містить масив `data` і метадані пагінації `meta` (page, per_page, total_count, total_pages)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+              "const body = pm.response.json();",
+              "pm.test('Has data and meta', () => { pm.expect(body).to.have.keys('data', 'meta'); });",
+              "pm.test('Book has expected fields', () => { if (body.data.length) pm.expect(body.data[0]).to.include.keys('id', 'title', 'year', 'description', 'author'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List books – page 2",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/books?page=2&per_page=5",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "books"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "2",
+              "description": "Номер сторінки",
+              "disabled": false
+            },
+            {
+              "key": "per_page",
+              "value": "5",
+              "description": "Кількість книг на сторінці",
+              "disabled": false
+            }
+          ]
+        },
+        "description": "Друга сторінка по 5 книг."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+              "const body = pm.response.json();",
+              "pm.test('meta.page is 2', () => pm.expect(body.meta.page).to.eql(2));",
+              "pm.test('At most 5 books', () => pm.expect(body.data.length).to.be.at.most(5));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search books by title",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/books?title=ти",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "books"
+          ],
+          "query": [
+            {
+              "key": "title",
+              "value": "ти",
+              "description": "Частина назви книги",
+              "disabled": false
+            }
+          ]
+        },
+        "description": "Пошук книг, у назві яких є підрядок `title` (ILIKE, без урахування регістру)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+              "const body = pm.response.json();",
+              "pm.test('Every title contains the query', () => body.data.forEach(b => pm.expect(b.title.toLowerCase()).to.include('ти')));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Filter books by author",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/books?author_id={{author_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "books"
+          ],
+          "query": [
+            {
+              "key": "author_id",
+              "value": "{{author_id}}",
+              "description": "id автора",
+              "disabled": false
+            }
+          ]
+        },
+        "description": "Книги одного автора. id автора задається змінною колекції `author_id`."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+              "const body = pm.response.json();",
+              "pm.test('All books belong to the author', () => body.data.forEach(b => pm.expect(b.author.id).to.eql(Number(pm.collectionVariables.get('author_id')))));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get book",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/books/{{book_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "books",
+            "{{book_id}}"
+          ]
+        },
+        "description": "Одна книга за id. id задається змінною колекції `book_id`."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+              "const body = pm.response.json();",
+              "pm.test('Returns the requested book', () => pm.expect(body.data.id).to.eql(Number(pm.collectionVariables.get('book_id'))));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get book – not found",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/books/0",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "books",
+            "0"
+          ]
+        },
+        "description": "Неіснуючий id: сервер повертає 404 і повідомлення про помилку в масиві `errors`."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 404', () => pm.response.to.have.status(404));",
+              "pm.test('Has errors', () => pm.expect(pm.response.json().errors[0].title).to.eql('Not found'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List books – invalid per_page",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/books?per_page=abc",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "books"
+          ],
+          "query": [
+            {
+              "key": "per_page",
+              "value": "abc",
+              "description": "Некоректне значення",
+              "disabled": false
+            }
+          ]
+        },
+        "description": "Некоректний параметр пагінації: сервер повертає 400 Bad Request."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 400', () => pm.response.to.have.status(400));",
+              "pm.test('Explains the error', () => pm.expect(pm.response.json().errors[0].detail).to.include('per_page'));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

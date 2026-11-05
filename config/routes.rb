@@ -21,6 +21,12 @@ Rails.application.routes.draw do
   resources :books
   resources :authors, except: :show
 
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :books, only: %i[index show]
+    end
+  end
+
   namespace :admin, module: 'admin_panel' do
     get '/' => 'dashboard#index'
     resources :admins

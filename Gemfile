@@ -7,6 +7,8 @@ ruby '3.4.2'
 
 gem 'bcrypt'
 gem 'importmap-rails'
+# Build JSON API responses with Jbuilder templates [https://github.com/rails/jbuilder]
+gem 'jbuilder'
 gem 'pg', '~> 1.1'
 gem 'puma', '>= 5.0'
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]

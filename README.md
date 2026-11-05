@@ -7,6 +7,7 @@
 |---|---|---|
 | ЛР2 | Ініціалізація проєкту, MVC і CRUD | `lab-2` |
 | ЛР3 | Моделі, зв'язки, міграції, scope'и, пошук/сортування | `lab-3` |
+| ЛР4 | JSON API, тестування та документація API у Postman | `lab-4` |
 
 ## Вимоги
 
@@ -29,3 +30,44 @@ bin/rails server -b 0.0.0.0
 Застосунок доступний за адресою `http://<IP>:3000/`. Головна сторінка — список книг.
 
 Адмін-панель: `/admin`, вхід `admin@example.com` / `password`.
+
+## JSON API v1
+
+Колекція Postman: [`docs/postman/bookshelf.postman_collection.json`](docs/postman/bookshelf.postman_collection.json).
+
+| Метод | Шлях | Параметри | Опис |
+|---|---|---|---|
+| GET | `/api/v1/books` | `page` (≥1, за замовч. 1), `per_page` (1–100, за замовч. 10), `title` (частина назви), `author_id` | Список книг з пагінацією та фільтрами |
+| GET | `/api/v1/books/:id` | – | Одна книга |
+
+Приклад відповіді `GET /api/v1/books?per_page=1`:
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "Тіні забутих предків",
+      "year": 1911,
+      "description": "...",
+      "author": { "id": 1, "name": "Михайло Коцюбинський" },
+      "created_at": "2026-11-05T14:00:00.000Z",
+      "updated_at": "2026-11-05T14:00:00.000Z"
+    }
+  ],
+  "meta": { "page": 1, "per_page": 1, "total_count": 12, "total_pages": 12 }
+}
+```
+
+Помилки: `400 Bad Request` (некоректні `page`, `per_page`, `author_id`), `404 Not Found` (книги не існує):
+
+```json
+{ "errors": [{ "status": 404, "title": "Not found", "detail": "Book with id=0 not found" }] }
+```
+
+## Тести
+
+```bash
+bin/rails db:test:prepare
+bundle exec rspec
+```
