@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Author do
+RSpec.describe Author, type: :model do
   subject(:author) { create(:author) }
 
   it { is_expected.to have_many(:books).dependent(:restrict_with_error) }

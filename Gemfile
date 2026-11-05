@@ -72,7 +72,8 @@ group :development, :test do
 end
 
 group :test do
-  gem 'airborne'
+  # airborne overrides rspec-rails request helpers (get, response), so it is not required automatically
+  gem 'airborne', require: false
   gem 'factory_bot_rails'
   gem 'n_plus_one_control'
 

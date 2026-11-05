@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Book do
+RSpec.describe Book, type: :model do
   subject(:book) { build(:book) }
 
   it { is_expected.to belong_to(:author).optional }
