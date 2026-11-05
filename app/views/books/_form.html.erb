@@ -24,15 +24,16 @@
   </div>
 
   <% if admin_signed_in? %>
-    <div class="mb-3">
+    <div class="mb-3" data-controller="cover-preview">
       <%= f.label :cover, 'Cover', class: 'form-label' %>
       <div class="d-flex align-items-start gap-3">
         <div>
           <% if book.cover %>
             <%= image_tag book.cover_url, alt: 'Cover', class: 'img-thumbnail', style: 'max-height: 180px;',
-                                          id: 'cover-preview' %>
+                                          data: { cover_preview_target: 'image' } %>
           <% else %>
-            <%= tag.img alt: '', class: 'img-thumbnail d-none', style: 'max-height: 180px;', id: 'cover-preview' %>
+            <%= tag.img alt: '', class: 'img-thumbnail d-none', style: 'max-height: 180px;',
+                        data: { cover_preview_target: 'image' } %>
           <% end %>
         </div>
         <div class="flex-grow-1">
@@ -40,9 +41,7 @@
           <%= f.hidden_field :cover, value: book.cached_cover_data, id: nil %>
           <%= f.file_field :cover, accept: 'image/jpeg,image/png,image/webp,image/gif',
                                    class: "form-control #{'is-invalid' if book.errors[:cover].any?}",
-                                   onchange: "const p=document.getElementById('cover-preview');" \
-                                             "if(this.files[0]){p.src=URL.createObjectURL(this.files[0]);" \
-                                             "p.classList.remove('d-none');}" %>
+                                   data: { cover_preview_target: 'input', action: 'cover-preview#show' } %>
           <div class="form-text">JPEG, PNG, WebP or GIF, up to 5 MB.</div>
           <% if book.cover && book.persisted? %>
             <div class="form-check mt-2">
