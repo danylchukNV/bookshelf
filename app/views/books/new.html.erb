@@ -1,0 +1,13 @@
+<% provide(:title, 'New Book') %>
+<main class="content">
+  <div class="container-fluid p-0">
+    <div class="card">
+      <div class="card-header">
+        <h1 class="h3 mb-0">New Book</h1>
+      </div>
+      <div class="card-body">
+        <%= render 'form', book: @book %>
+      </div>
+    </div>
+  </div>
+</main>

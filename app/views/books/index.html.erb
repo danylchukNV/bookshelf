@@ -1,0 +1,51 @@
+<% provide(:title, 'Books') %>
+<main class="content">
+  <div class="container-fluid p-0">
+    <div class="card">
+      <div class="card-header">
+        <%= link_to new_book_path, class: 'btn btn-primary float-end mt-n1' do %>
+          <i class="fa-solid fa-plus"></i>
+          New Book
+        <% end %>
+        <h1 class="h3 mb-3">Books</h1>
+      </div>
+      <div class="card-body">
+        <% if @books.any? %>
+          <div class="table-responsive">
+            <table class="table table-striped mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Author</th>
+                  <th scope="col">Year</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @books.each do |book| %>
+                  <tr>
+                    <td><%= book.id %></td>
+                    <td><%= link_to book.title, book_path(book) %></td>
+                    <td><%= book.author %></td>
+                    <td><%= book.year %></td>
+                    <td>
+                      <div class="d-flex gap-1">
+                        <%= link_to 'Edit', edit_book_path(book), class: 'btn btn-sm btn-warning' %>
+                        <%= button_to 'Delete', book_path(book), method: :delete,
+                                      class: 'btn btn-sm btn-danger',
+                                      form: { data: { turbo_confirm: "Delete \"#{book.title}\"?" } } %>
+                      </div>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% else %>
+          <p class="mb-0">No books yet.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</main>

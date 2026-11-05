@@ -1,32 +1,30 @@
-# template
+# Bookshelf
 
-This is a Rails 8 app.
+Лабораторні роботи з дисципліни «Сучасні методи WEB-програмування» (Поліський національний університет).
+Проєкт створено на основі темплейту [hborysov/Template](https://github.com/hborysov/Template) (Rails 8, PostgreSQL, тема AppStack).
 
-## Documentation
+| Лабораторна | Тема | Тег |
+|---|---|---|
+| ЛР2 | Ініціалізація проєкту, MVC і CRUD | `lab-2` |
 
-This README describes the purpose of this repository and how to set up a development environment.
+## Вимоги
 
-## Prerequisites
+* Ruby 3.4.2
+* PostgreSQL (локально, автентифікація через системного користувача)
 
-This project requires:
+## Запуск (Ubuntu)
 
-* Ruby 3.4.2, preferably managed using rvm
-* PostgreSQL must be installed and accepting connections
+```bash
+sudo apt install -y postgresql libpq-dev
+sudo -u postgres createuser -s $USER
 
-If you need help setting up a Ruby development environment, check out this [Rails OS X Setup Guide](https://mattbrictson.com/rails-osx-setup-guide).
+bundle install
+bin/rails db:create
+bin/rails db:migrate
+bin/rails db:seed
+bin/rails server -b 0.0.0.0
+```
 
-## Getting started
+Застосунок доступний за адресою `http://<IP>:3000/`. Головна сторінка — список книг.
 
-* run `docker compose build` in terminal
-* run `docker compose run rails rails db:create` in terminal
-* run `docker compose run rails rails db:migrate` in terminal
-* run `docker compose run rails rails db:seed` in terminal
-* run `docker compose up rails` in terminal
-* Access the app at: `http://localhost:3000/`
-
-## Info
-
-* Зайти в контейнер запустіть `docker compose run rails bash` в terminal.
-run — стартує одноразовий контейнер сервісу rails bash — відкриває оболонку всередині контейнера
-
-* Усередині контейнера щоб відкрити Rails Console (доступ до моделей/БД тощо) запустіть команду `bundle exec rails c`.
+Адмін-панель: `/admin`, вхід `admin@example.com` / `password`.
