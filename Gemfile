@@ -62,7 +62,7 @@ end
 group :development, :test do
   gem 'bullet'
   gem 'faker'
-  gem 'i18n-tasks', '~> 1.0.13'
+  gem 'i18n-tasks', '~> 1.1.2'
   gem 'pry-byebug'
   gem 'pry-rails'
 
