@@ -25,7 +25,7 @@ RSpec.describe 'Admin imports', type: :request do
       import = Import.last
       expect(response).to redirect_to(admin_import_path(import))
       expect(import.reload).to be_completed
-      expect(import.created_count).to eq(1)
+      expect(import.created_count).to eq(2) # Бояриня, Лісова пісня (only Леся Українка exists here)
       expect(import.admin).to eq(admin)
     end
 
