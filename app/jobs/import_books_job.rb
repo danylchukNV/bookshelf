@@ -33,7 +33,7 @@ class ImportBooksJob < ApplicationJob
   private
 
   def parse(content)
-    content = content.to_s.dup.force_encoding('UTF-8').delete_prefix("﻿") # remove BOM added by Excel
+    content = content.to_s.dup.force_encoding('UTF-8').delete_prefix("\uFEFF") # remove BOM added by Excel
     table = CSV.parse(content, headers: true, skip_blanks: true,
                                header_converters: ->(h) { h.to_s.strip.downcase })
     missing = REQUIRED_HEADERS - table.headers.compact
